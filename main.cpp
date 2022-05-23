@@ -3,11 +3,13 @@
 
 #define RELEASE
 
-int wmain(int argc, wchar_t *argv[])
+int wmain(int argc, wchar_t* argv[])
 {
-	if (RegisterHotKey(NULL, 1, MOD_ALT | MOD_NOREPEAT, VK_F1))
+	if (RegisterHotKey(NULL, 1, MOD_ALT | MOD_NOREPEAT, VK_ESCAPE) &&
+		RegisterHotKey(NULL, 2, MOD_ALT | MOD_NOREPEAT, VK_F11) &&
+		RegisterHotKey(NULL, 3, MOD_ALT | MOD_NOREPEAT, VK_F12))
 	{
-		wprintf(L"Hotkey 'Alt+F1' registered, using MOD_NOREPEAT flag\n");
+		wprintf(L"Hotkeys registered, using MOD_NOREPEAT flag\n");
 	}
 	else
 	{
@@ -31,12 +33,23 @@ int wmain(int argc, wchar_t *argv[])
 
 			INPUT ip = { 0 };
 			ip.type = INPUT_KEYBOARD;
-			ip.ki.wVk = VK_VOLUME_MUTE;
+			switch (msg.wParam)
+			{
+			case 1:
+				ip.ki.wVk = VK_VOLUME_MUTE;
+				break;
+			case 2:
+				ip.ki.wVk = VK_VOLUME_DOWN;
+				break;
+			case 3:
+				ip.ki.wVk = VK_VOLUME_UP;
+				break;
+			}
 			SendInput(1, &ip, sizeof(INPUT));
 			ip.ki.dwFlags = KEYEVENTF_KEYUP;
 			SendInput(1, &ip, sizeof(INPUT));
 
-			wprintf(L"VK_VOLUME_MUTE sent\n");
+			wprintf(L"INPUT_KEYBOARD sent\n");
 		}
 	}
 
