@@ -7,7 +7,8 @@ int wmain(int argc, wchar_t* argv[])
 {
 	if (RegisterHotKey(NULL, 1, MOD_ALT | MOD_NOREPEAT, VK_ESCAPE) &&
 		RegisterHotKey(NULL, 2, MOD_ALT | MOD_NOREPEAT, VK_F11) &&
-		RegisterHotKey(NULL, 3, MOD_ALT | MOD_NOREPEAT, VK_F12))
+		RegisterHotKey(NULL, 3, MOD_ALT | MOD_NOREPEAT, VK_F12) &&
+		RegisterHotKey(NULL, 4, MOD_ALT | MOD_NOREPEAT, VK_F8))
 	{
 		wprintf(L"Hotkeys registered, using MOD_NOREPEAT flag\n");
 	}
@@ -43,6 +44,9 @@ int wmain(int argc, wchar_t* argv[])
 				break;
 			case 3:
 				ip.ki.wVk = VK_VOLUME_UP;
+				break;
+			case 4:
+				ip.ki.wVk = VK_MEDIA_PLAY_PAUSE;
 				break;
 			}
 			SendInput(1, &ip, sizeof(INPUT));
